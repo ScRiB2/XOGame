@@ -31,16 +31,12 @@ namespace XOGame
             public string name;
             public int score = 0;
             public string symbol;
+            public bool isBot = false;
         }
 
         public MainWindow()
         {
             InitializeComponent();
-
-            //initFields();
-
-            //player1.name = "Саша";
-            //player1.symbol = 'X';
 
             changeVisible(Visibility.Hidden);
             firstPlayerBtn.Visibility = Visibility.Visible;
@@ -57,6 +53,7 @@ namespace XOGame
             player1.symbol = symbolBlock.Text;
             player2.name = "Бот";
             player2.symbol = player1.symbol == "O" ? "X" : "O";
+            player2.isBot = true;
 
             changeScore();
             currentPlayer = player2;
@@ -93,6 +90,10 @@ namespace XOGame
         {
             currentPlayer = currentPlayer == player1 ? player2 : player1;
             CurrentMove_Label.Content = "Сейчас ходит " + currentPlayer.name + " - " + currentPlayer.symbol;
+            if (currentPlayer.isBot)
+            {
+                StepOfBot();
+            }
         }
 
         private void changeScore()
@@ -130,6 +131,9 @@ namespace XOGame
             changeVisible(Visibility.Hidden);
             firstPlayerBtn.Visibility = Visibility.Visible;
             secondPlayerBtn.Visibility = Visibility.Visible;
+            player1.score = 0;
+            player2.score = 0;
+            changeScore();
         }
 
         private void Reset_State(object sender, RoutedEventArgs e)
@@ -137,6 +141,28 @@ namespace XOGame
             player1.score = 0;
             player2.score = 0;
             changeScore();
+        }
+
+        private void insertSymbol(int row, int column)
+        {
+            
+            matrix[row][column] = currentPlayer.symbol;
+            matrixGrid.DataContext = null;
+            matrixGrid.DataContext = matrix;
+            if (checkWin())
+            {
+                if (matrixFull)
+                    MessageBox.Show("Ничья!");
+                else
+                {
+                    currentPlayer.score++;
+                    changeScore();
+                    MessageBox.Show("Победил " + currentPlayer.name + "!");
+                }
+                initFields();
+                matrixFull = false;
+            }
+            changeStatistic();
         }
 
         private void PutSymbol(object sender, MouseButtonEventArgs e)
@@ -150,22 +176,7 @@ namespace XOGame
                 {
                     return;
                 }
-                matrix[row][column] = currentPlayer.symbol;
-                matrixGrid.DataContext = null;
-                matrixGrid.DataContext = matrix;
-                if (checkWin())
-                {
-                    if (matrixFull)
-                        MessageBox.Show("Ничья!");
-                    else {
-                        currentPlayer.score++;
-                        changeScore();
-                        MessageBox.Show("Победил " + currentPlayer.name + "!");
-                    }
-                    initFields();
-                    matrixFull = false;
-                }
-                changeStatistic();
+                insertSymbol(row, column);
             }
         }
 
@@ -247,6 +258,37 @@ namespace XOGame
                 return true;
             }
             return false;
+        }
+
+        private int[] mapMatrixToBoard()
+        {
+            List<int> s = new List<int>();
+            int z = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                int j = 0;
+                for (; j < 3; j++)
+                {
+                    if (matrix[i][j] == " ")
+                        s.Add(i + z + j);
+                }
+                z = (j-1) * (i + 1);
+            }
+            return s.ToArray();
+        }
+
+        private void StepOfBot()
+        {
+            int[] board = mapMatrixToBoard();
+            Random rand = new Random();
+            int index = rand.Next(0, board.Length);
+            int step = board[index];
+            if (step < 3)
+                insertSymbol(0, step);
+            else if (step < 6)
+                insertSymbol(1, step-3);
+            else 
+                insertSymbol(2, step - 6);
         }
     }
 }
