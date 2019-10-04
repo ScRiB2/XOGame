@@ -6,7 +6,32 @@
         xmlns:local="clr-namespace:XOGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid  x:Name="mainGrid">
+        <Grid x:Name="matrixGrid" DataContext="{Binding}" Height="253" Margin="77,68,0,0" VerticalAlignment="Top" Width="270" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Black" BorderThickness="3" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+            <Border BorderBrush="Black" BorderThickness="3" Grid.Column="1" Grid.RowSpan="3"/>
+            <Border BorderBrush="Black" BorderThickness="3" Grid.ColumnSpan="3" Grid.Row="1"/>
+            <TextBlock x:Name="textBlock0" Grid.Row="0" Grid.Column="0" Text="{Binding Path=[0][0], Mode=OneWay}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock1" Grid.Row="0" Grid.Column="1" Text="{Binding Path=[0][1]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock2" Grid.Row="0" Grid.Column="2" Text="{Binding Path=[0][2]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock3" Grid.Row="1" Grid.Column="0" Text="{Binding Path=[1][0]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock4" Grid.Row="1" Grid.Column="1" Text="{Binding Path=[1][1]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock5" Grid.Row="1" Grid.Column="2" Text="{Binding Path=[1][2]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock6" Grid.Row="2" Grid.Column="0" Text="{Binding Path=[2][0]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock7" Grid.Row="2" Grid.Column="1" Text="{Binding Path=[2][1]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock8" Grid.Row="2" Grid.Column="2" Text="{Binding Path=[2][2]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+        </Grid>
+        <Button Content="Новая игра" HorizontalAlignment="Left" Margin="502,84,0,0" VerticalAlignment="Top" Width="135" Height="40" Click="Button_Click"/>
         
     </Grid>
 </Window>
