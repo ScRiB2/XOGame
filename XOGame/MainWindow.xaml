@@ -21,7 +21,7 @@
             <Border BorderBrush="Black" BorderThickness="3" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
             <Border BorderBrush="Black" BorderThickness="3" Grid.Column="1" Grid.RowSpan="3"/>
             <Border BorderBrush="Black" BorderThickness="3" Grid.ColumnSpan="3" Grid.Row="1"/>
-            <TextBlock x:Name="textBlock0" Grid.Row="0" Grid.Column="0" Text="{Binding Path=[0][0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock0" Grid.Row="0" Grid.Column="0" Text="{Binding Path=[0][0]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock1" Grid.Row="0" Grid.Column="1" Text="{Binding Path=[0][1]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock2" Grid.Row="0" Grid.Column="2" Text="{Binding Path=[0][2]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock3" Grid.Row="1" Grid.Column="0" Text="{Binding Path=[1][0]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
@@ -31,7 +31,13 @@
             <TextBlock x:Name="textBlock7" Grid.Row="2" Grid.Column="1" Text="{Binding Path=[2][1]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock8" Grid.Row="2" Grid.Column="2" Text="{Binding Path=[2][2]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
         </Grid>
-        <Button Content="Новая игра" HorizontalAlignment="Left" Margin="502,84,0,0" VerticalAlignment="Top" Width="135" Height="40" Click="Button_Click"/>
-        
+        <Label Content="Счёт" HorizontalAlignment="Left" Margin="560,55,0,0" VerticalAlignment="Top" Width="76" Height="45" FontSize="20"/>
+        <Label x:Name="Player1_Score" Content="Player1:&#xA;" HorizontalAlignment="Left" Margin="470,101,0,0" VerticalAlignment="Top" Width="76" Height="45" FontSize="18"/>
+        <Label x:Name="Player2_Score" Content="Player2:&#xA;" HorizontalAlignment="Left" Margin="633,101,0,0" VerticalAlignment="Top" Width="76" Height="45" FontSize="18"/>
+        <Label x:Name="CurrentMove_Label" Content="Сейчас ходит Player1 - X &#xA;" HorizontalAlignment="Left" Margin="470,179,0,0" VerticalAlignment="Top" Height="45" FontSize="18"/>
+        <Button Content="Сбросить счёт" HorizontalAlignment="Left" Margin="438,271,0,0" VerticalAlignment="Top" Width="135" Height="40" Click="Reset_State"/>
+        <Button Content="Новая игра" HorizontalAlignment="Left" Margin="599,271,0,0" VerticalAlignment="Top" Width="135" Height="40" Click="StartNewGame"/>
+        <Button x:Name="firstPlayerBtn" Content="Один игрок" HorizontalAlignment="Left" Margin="80,128,0,0" VerticalAlignment="Top" Width="267" Height="140" Click="OnePlayerGame" FontSize="36"/>
+        <Button x:Name="secondPlayerBtn" Content="Два игрока" HorizontalAlignment="Left" Margin="442,131,0,0" VerticalAlignment="Top" Width="267" Height="140" Click="TwoPlayerGame" FontSize="36"/>
     </Grid>
 </Window>

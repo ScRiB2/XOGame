@@ -20,17 +20,85 @@ namespace XOGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        private char currentSymbol = 'O';
-        private char[][] matrix;
+        private string[][] matrix;
         private bool matrixFull = false;
+        public Player player1 = new Player();
+        public Player player2 = new Player();
+        private Player currentPlayer;
+
+        public class Player
+        {
+            public string name;
+            public int score = 0;
+            public string symbol;
+        }
 
         public MainWindow()
         {
             InitializeComponent();
 
+            //initFields();
+
+            //player1.name = "Саша";
+            //player1.symbol = 'X';
+
+            changeVisible(Visibility.Hidden);
+            firstPlayerBtn.Visibility = Visibility.Visible;
+            secondPlayerBtn.Visibility = Visibility.Visible;
+        }
+
+        private void OnePlayerGame(object sender, RoutedEventArgs e)
+        {
+            Window1 windowOfPlayer = new Window1();
+            windowOfPlayer.ShowDialog();
+            player1.name = windowOfPlayer.playerName1_TextBox.Text;
+            ComboBoxItem selectedItem = (ComboBoxItem)windowOfPlayer.symbolBox.SelectedItem;
+            TextBlock symbolBlock = selectedItem.Content as TextBlock;
+            player1.symbol = symbolBlock.Text;
+            player2.name = "Бот";
+            player2.symbol = player1.symbol == "O" ? "X" : "O";
+
+            changeScore();
+            currentPlayer = player2;
+            changeStatistic();
             initFields();
 
-            // changeVisible(Visibility.Hidden);
+            windowOfPlayer.Close();
+            changeVisible(Visibility.Visible);
+            firstPlayerBtn.Visibility = Visibility.Hidden;
+            secondPlayerBtn.Visibility = Visibility.Hidden;
+        }
+
+        private void TwoPlayerGame(object sender, RoutedEventArgs e)
+        {
+            TwoPlayers windowOfPlayer = new TwoPlayers();
+            windowOfPlayer.ShowDialog();
+            player1.name = windowOfPlayer.playerName1_TextBox.Text;
+            player2.name = windowOfPlayer.playerName2_TextBox.Text;
+            player1.symbol = "X";
+            player2.symbol = "O";
+
+            changeScore();
+            currentPlayer = player2;
+            changeStatistic();
+            initFields();
+
+            windowOfPlayer.Close();
+            changeVisible(Visibility.Visible);
+            firstPlayerBtn.Visibility = Visibility.Hidden;
+            secondPlayerBtn.Visibility = Visibility.Hidden;
+        }
+
+        private void changeStatistic()
+        {
+            currentPlayer = currentPlayer == player1 ? player2 : player1;
+            CurrentMove_Label.Content = "Сейчас ходит " + currentPlayer.name + " - " + currentPlayer.symbol;
+        }
+
+        private void changeScore()
+        {
+            Player1_Score.Content = player1.name + ": " + player1.score;
+            Player2_Score.Content = player2.name + ": " + player2.score;
         }
 
         private void changeVisible(Visibility v)
@@ -41,31 +109,34 @@ namespace XOGame
             }
         }
 
-        private char ChangeSymbol()
+        private void initFields(string symbol = " ")
         {
-            return currentSymbol == 'X' ? currentSymbol = 'O' : currentSymbol = 'X';
-        }
-
-        private void initFields(char symbol = ' ')
-        {
-            matrix = new char[3][];
+            matrix = new string[3][];
 
             for (int i = 0; i < 3; i++)
             {
-                matrix[i] = new char[3];
+                matrix[i] = new string[3];
                 for (int j = 0; j < 3; j++)
                 {
                     matrix[i][j] = symbol;
 
                 }
             }
-
             matrixGrid.DataContext = matrix;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void StartNewGame(object sender, RoutedEventArgs e)
         {
-            initFields();
+            changeVisible(Visibility.Hidden);
+            firstPlayerBtn.Visibility = Visibility.Visible;
+            secondPlayerBtn.Visibility = Visibility.Visible;
+        }
+
+        private void Reset_State(object sender, RoutedEventArgs e)
+        {
+            player1.score = 0;
+            player2.score = 0;
+            changeScore();
         }
 
         private void PutSymbol(object sender, MouseButtonEventArgs e)
@@ -75,20 +146,26 @@ namespace XOGame
             {
                 int row = Grid.GetRow(myTextBox);
                 int column = Grid.GetColumn(myTextBox);
-                if (matrix[row][column] != ' ')
+                if (matrix[row][column] != " ")
                 {
                     return;
                 }
-                matrix[row][column] = ChangeSymbol();
+                matrix[row][column] = currentPlayer.symbol;
                 matrixGrid.DataContext = null;
                 matrixGrid.DataContext = matrix;
-                if (checkWin()) {
+                if (checkWin())
+                {
                     if (matrixFull)
                         MessageBox.Show("Ничья!");
-                    else
-                        MessageBox.Show("Победили " + matrix[row][column] + "!");
+                    else {
+                        currentPlayer.score++;
+                        changeScore();
+                        MessageBox.Show("Победил " + currentPlayer.name + "!");
+                    }
                     initFields();
+                    matrixFull = false;
                 }
+                changeStatistic();
             }
         }
 
@@ -99,7 +176,7 @@ namespace XOGame
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (matrix[i][j] == ' ')
+                    if (matrix[i][j] == " ")
                         flag = false;
                 }
             }
@@ -110,56 +187,56 @@ namespace XOGame
         {
             if (matrix[0][0] == matrix[0][1] && matrix[0][1] == matrix[0][2])
             {
-                if (matrix[0][0] != ' ')
+                if (matrix[0][0] != " ")
                 {
                     return true;
                 }
             }
             else if (matrix[1][0] == matrix[1][1] && matrix[1][1] == matrix[1][2])
             {
-                if (matrix[1][0] != ' ')
+                if (matrix[1][0] != " ")
                 {
                     return true;
                 }
             }
             else if (matrix[2][0] == matrix[2][1] && matrix[2][1] == matrix[2][2])
             {
-                if (matrix[2][0] != ' ')
+                if (matrix[2][0] != " ")
                 {
                     return true;
                 }
             }
             else if (matrix[0][0] == matrix[1][0] && matrix[1][0] == matrix[2][0])
             {
-                if (matrix[0][0] != ' ')
+                if (matrix[0][0] != " ")
                 {
                     return true;
                 }
             }
             else if (matrix[0][1] == matrix[1][1] && matrix[1][1] == matrix[2][1])
             {
-                if (matrix[0][1] != ' ')
+                if (matrix[0][1] != " ")
                 {
                     return true;
                 }
             }
             else if (matrix[0][2] == matrix[1][2] && matrix[1][2] == matrix[2][2])
             {
-                if (matrix[0][2] != ' ')
+                if (matrix[0][2] != " ")
                 {
                     return true;
                 }
             }
             else if (matrix[0][0] == matrix[1][1] && matrix[1][1] == matrix[2][2])
             {
-                if (matrix[0][0] != ' ')
+                if (matrix[0][0] != " ")
                 {
                     return true;
                 }
             }
             else if (matrix[2][0] == matrix[1][1] && matrix[1][1] == matrix[0][2])
             {
-                if (matrix[2][0] != ' ')
+                if (matrix[2][0] != " ")
                 {
                     return true;
                 }
