@@ -20,7 +20,7 @@ namespace XOGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        private char currentSymbol = 'X';
+        private char currentSymbol = 'O';
         private bool matrixIsFill = false;
         private char[][] matrix;
 
@@ -75,7 +75,12 @@ namespace XOGame
             {
                 int row = Grid.GetRow(myTextBox);
                 int column = Grid.GetColumn(myTextBox);
+                if (matrix[row][column] != ' ')
+                {
+                    return;
+                }
                 matrix[row][column] = ChangeSymbol();
+                matrixGrid.DataContext = null;
                 matrixGrid.DataContext = matrix;
             }
         }

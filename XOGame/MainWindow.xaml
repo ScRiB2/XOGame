@@ -21,7 +21,7 @@
             <Border BorderBrush="Black" BorderThickness="3" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
             <Border BorderBrush="Black" BorderThickness="3" Grid.Column="1" Grid.RowSpan="3"/>
             <Border BorderBrush="Black" BorderThickness="3" Grid.ColumnSpan="3" Grid.Row="1"/>
-            <TextBlock x:Name="textBlock0" Grid.Row="0" Grid.Column="0" Text="{Binding Path=[0][0], Mode=OneWay}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock0" Grid.Row="0" Grid.Column="0" Text="{Binding Path=[0][0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock1" Grid.Row="0" Grid.Column="1" Text="{Binding Path=[0][1]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock2" Grid.Row="0" Grid.Column="2" Text="{Binding Path=[0][2]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
             <TextBlock x:Name="textBlock3" Grid.Row="1" Grid.Column="0" Text="{Binding Path=[1][0]}" FontSize="80" MouseLeftButtonDown="PutSymbol" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center"/>
